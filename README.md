@@ -1,2 +1,2 @@
 # CS551-Project
-Cloud Computing Funamentals project repository.
+Cloud Computing Fundamentals project repository.
