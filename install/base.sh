@@ -24,6 +24,7 @@ fi
 
 # Set VIM default editor and set ~./vimrc file
 echo "Setting VIM as default editor"
+sudo apt install vim
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 100
 sudo update-alternatives --set editor /usr/bin/vim
 
