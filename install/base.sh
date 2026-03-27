@@ -22,10 +22,15 @@ else
   echo "Successfully installed Git"
 fi
 
-# Set VIM default editor
+# Set VIM default editor and set ~./vimrc file
 echo "Setting VIM as default editor"
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 100
 sudo update-alternatives --set editor /usr/bin/vim
+
+> ~/.vimrc
+echo "set tabstop=4" > ~/.vimrc
+echo "set shiftwidth=4" >> ~/.vimrc
+echo "set expandtab" >> ~/.vimrc
 
 # Install C++ and compilation
 echo "Installing C++"
