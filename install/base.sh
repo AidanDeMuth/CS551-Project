@@ -9,17 +9,30 @@ else
   sudo apt update 
   sudo apt upgrade -f
   
-  if ! grep -q "24.04" /etc/os-release; then exit 1; fi;
+  if ! grep -q "24.04" /etc/os-release; 
+  then echo "Failed to Upgrade OS version"; exit 1; fi;
 fi
 
 # Install git
-if grep -q "version" git --version; then
+if git --version | grep -q "version"; then
   echo "Git already installed"
 else
   sudo apt update
   sudo apt install git
+  echo "Successfully installed Git"
 fi
 
 # Set VIM default editor
+echo "Setting VIM as default editor"
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 100
 sudo update-alternatives --set editor /usr/bin/vim
+
+# Install C++ and compilation
+echo "Installing C++"
+if g++ --version | grep -q "version"; then
+  echo "C++ already installed!"
+else
+  sudo apt install build-essential
+  echo "Successfully installed C++!"
+fi
+
