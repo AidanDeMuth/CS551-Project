@@ -1,6 +1,8 @@
 #!/bin/bash
 
-install_arg=$1
+INSTALL_ARG=$1
+POSTGRES_PASS="password"
+PG_VERSION=$(psql --version | awk '{print $3}' | cut -d. -f1)
 
 # Install PostgreSQL
 
@@ -9,7 +11,7 @@ if [[ $# -lt 1 ]]; then
 fi
 
 
-if [ "$install_arg" = "install" ]; then
+if [ "$INSTALL_ARG" = "install" ]; then
   sudo apt update
   sudo apt upgrade
 
@@ -18,8 +20,11 @@ if [ "$install_arg" = "install" ]; then
     sudo pg_createcluster 16 main
   fi
 
+  # Give the postgres user a dummy password
   sudo apt install postgresql-16 postgresql-contrib
-elif [ "$install_arg" = "uninstall" ]; then
+  sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '${POSTGRES_PASS}'"
+
+elif [ "$INSTALL_ARG" = "uninstall" ]; then
   # Delet config
   sudo apt purge postgresql
 

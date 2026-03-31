@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Update OS
 if grep -q "24.04" /etc/os-release; then
   echo "Already running Ubuntu 24.04"
@@ -31,9 +30,9 @@ sudo update-alternatives --set editor /usr/bin/vim
 > ~/.vimrc
 echo "set tabstop=4" > ~/.vimrc
 echo "set shiftwidth=4" >> ~/.vimrc
-echo "set expandtab" >> ~/.vimrc
+echo "set noexpandtab" >> ~/.vimrc
 
-# Install C++ and compilation
+# Install C++, gxx, Make
 echo "Installing C++"
 if g++ --version | grep -q "version"; then
   echo "C++ already installed!"
@@ -41,4 +40,8 @@ else
   sudo apt install build-essential
   echo "Successfully installed C++!"
 fi
+
+# Instal libpqxx-dev (library for postgres)
+echo "Installing libpqxx-dev"
+sudo apt install libpqxx-dev
 
