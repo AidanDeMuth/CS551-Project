@@ -17,6 +17,6 @@ psql "$CONN" -c "$CREATE"
 
 # Call some C function
 echo "Populating table from bulk_test..."
-time ./bulk_test | psql "$CONN" -c "COPY test_table FROM STDIN CSV"
+./bulk_test
 
 psql "$CONN" -c "$DROP"
