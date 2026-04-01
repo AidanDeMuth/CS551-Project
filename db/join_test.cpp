@@ -17,7 +17,6 @@ int main(int argc, char *argv[]) {
 		FROM generate_series(1, 10000) as a(id)
 		JOIN generate_series(1, 10000) as b(id)
 		ON b.id BETWEEN a.id AND a.id + 999
-	
 	)";
 	tx.exec(query);
 	tx.commit();
