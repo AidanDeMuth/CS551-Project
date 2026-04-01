@@ -1,17 +1,19 @@
-#include "./timer.hh"
 #include "./test.hh"
 
-#include <unistd.h>
 #include <iostream>
+#include <random>
 
-int main(int argc, char *argv[]) {
-	Timer t;
+int main() {
+    const int N = 10'000'000;
 
-	pqxx::connection conn = getConnection("testdb");
-	pqxx::work tx{conn};
+    std::mt19937 rng(42);
+    std::uniform_int_distribution<int> dist(0, 100000);
 
-	tx.exec("SELECT 1");
-	sleep(2);	
+    for (int i = 1; i <= N; i++) {
+        std::cout << i << "," << dist(rng) << "\n";
+    }
 
-	std::cout << t.getms() << std::endl;
+    std::cerr << "Generated " << N << " rows." << std::endl;
+
+    return 0;
 }
