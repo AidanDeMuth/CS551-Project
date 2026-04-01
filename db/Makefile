@@ -2,13 +2,14 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 LDFLAGS = -lpqxx -lpq # linker errors otherwise, prob a missing function
 
-TARGET = bulk_test
-SRC = bulk_test.cpp
+# The goal is to make each c file into its own executable by default
+SRCS = $(wildcard *.cpp)
+EXES = $(SRCS:.cpp=) # Replace .c extension with space
 
-all: $(TARGET)
+all: $(EXES)
 
-$(TARGET): $(SRC)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+$(EXES): %: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(EXES) *.o
