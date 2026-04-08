@@ -15,20 +15,6 @@ int main() {
         W.commit();
         std::cout << "Database stats reset.\n";
 
-        //TODO delete
-        std::cout << "Current stats:\n";
-        pqxx::nontransaction N1(conn);
-        pqxx::result res1 = N1.exec(
-            "SELECT blks_hit, blks_read "
-            "FROM pg_stat_database WHERE datname='testdb';"
-        );
-        int a = res1[0][0].as<int>();
-        int b = res1[0][1].as<int>();
-
-        std::cout << "Blocks Hit: " << a << "\n";
-        std::cout << "Blocks Read (disk): " << b << "\n";
-        // TODO end delete
-
         {
             pqxx::work W2(conn);
             W2.exec("DROP TABLE IF EXISTS test_cache;");
