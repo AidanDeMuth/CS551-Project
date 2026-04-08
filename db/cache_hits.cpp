@@ -1,10 +1,10 @@
 #include "./test.hh"
+#include "./timer.hh"
 
 #include <pqxx/pqxx>
 #include <iostream>
 #include <string>
 #include <random>
-#include <chrono>
 
 const int N = 100'000;
 
@@ -31,9 +31,9 @@ int main() {
 
         std::mt19937 rng(42);
         std::uniform_int_distribution<int> dist(1, N);
-        const int NUM_QUERIES = 4*N;
+        const int NUM_QUERIES = 10'000;
 
-        auto start_time = std::chrono::high_resolution_clock::now();
+        Timer t;
 
         for (int i = 0; i < NUM_QUERIES; ++i) {
             pqxx::work W3(conn);
@@ -42,9 +42,9 @@ int main() {
             W3.commit();
         }
 
-        auto end_time = std::chrono::high_resolution_clock::now();
+        auto end_time = t.getms();
         double duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
-        std::cout << "Queries per ms: " << NUM_QUERIES/duration_ms << ".\n";
+        std::cout << "Point query transactions per ms: " << NUM_QUERIES/duration_ms << ".\n";
 
         pqxx::nontransaction N(conn);
         pqxx::result res = N.exec(
