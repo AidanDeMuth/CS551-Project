@@ -6,7 +6,7 @@
 #include <random>
 #include <chrono>
 
-const int N = 100'000
+const int N = 100'000;
 
 int main() {
     try {
