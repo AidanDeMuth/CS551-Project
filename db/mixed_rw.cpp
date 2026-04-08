@@ -8,19 +8,26 @@
 
 const int READ_ID = 1;
 const int WRITE_ID = 2;
+srand(time(NULL));
 
-void run_mixed_workload(int N, int read_percentage) {
+void run_mixed_workload(pqxx::connection& conn, int N, int read_percentage) {
+std::unique_ptr<pqxx::work> tx = std::make_unique<pqxx::work>(conn);
     Timer t;
 
     for (int i = 1; i <= N; ++i) {
         int r = rand() % 100;
-
         if (r < read_percentage) {
             tx.exec("SELECT * FROM test_table WHERE id = "+ std::to_string(READ_ID));
-            run_read(tx, i);
         } else {
-            tx.exec("UPDATE test_table SET balance = balance + 1 WHERE id = "+ std::to_string(WRITE_ID));
-            run_write(tx, i);
+            if (rand() % 2 == 0) {
+                tx.exec("UPDATE test_table SET balance = balance + 1 WHERE id = "+ std::to_string(WRITE_ID));
+            } else {
+                tx.exec("INSERT INTO test_table (id, balance) VALUES (3, 4000)");
+            }
+        }
+        if (i % 1000 == 0) {
+            tx = std::make_unique<pqxx::work>(conn);  // fresh transaction to make it realistic
+            pqxx::work tx(conn);
         }
     }
 
@@ -46,8 +53,8 @@ int main() {
 	tx.commit();
 
     // Run mixed read/write workloads
-    run_mixed_workload(N, 20);
-	run_mixed_workload(N, 50);
-	run_mixed_workload(N, 80);
+    run_mixed_workload(conn, N, 20);
+	run_mixed_workload(conn, N, 50);
+	run_mixed_workload(conn, N, 80);
     return 0;
 }
