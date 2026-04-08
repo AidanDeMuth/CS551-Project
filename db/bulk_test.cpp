@@ -34,6 +34,6 @@ int main() {
     table_stream.complete();
 	tx.commit();
 
-	std::cout << t.getms() << ", generated " << N << " rows." << std::endl;
+	std::cout << t.getms() << std::endl;
     return 0;
 }
