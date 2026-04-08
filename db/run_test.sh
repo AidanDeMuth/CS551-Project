@@ -3,7 +3,7 @@ set -e
 
 CPP_SCRIPT_NAME=$1
 if [[ $# -lt 1 ]]; then
-  echo "usage: [bulk_insert | mixed_rw]"; exit 1;
+  echo "usage: [bulk_insert | mixed_rw | queries_per_second]"; exit 1;
 fi
 
 # I prob shouldn't be committing this but whatever

@@ -12,10 +12,12 @@ int main() {
 
     pqxx::connection conn = getConnection("testdb");
     pqxx::work W1(conn);
-
-    pqxx::stream_to table_stream(W1, "test_table");
-    for (int i = 1; i <= NUM_QUERIES; ++i) {
-        table_stream << std::make_tuple(i, 30000);
+    {
+        pqxx::stream_to table_stream(W1, "test_table");
+        for (int i = 1; i <= NUM_QUERIES; ++i) {
+            table_stream << std::make_tuple(i, 30000);
+        }
+        table_stream.complete();
     }
     W1.commit();
 
