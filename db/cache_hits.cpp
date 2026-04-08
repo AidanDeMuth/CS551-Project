@@ -34,7 +34,7 @@ int main() {
         for (int i = 0; i < NUM_QUERIES; ++i) {
 
             int id = dist(rng);
-            pqxx::result R = W3->exec("SELECT value FROM test_cache WHERE id=" + std::to_string(id) + ";");
+            pqxx::result R = W3->exec("SELECT value FROM test_table WHERE id=" + std::to_string(id) + ";");
             if (i % 10000 == 0) {
                 W3->commit();
                 W3 = std::make_unique<pqxx::work>(conn);
