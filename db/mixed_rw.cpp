@@ -13,6 +13,7 @@ const int N = 1'000;
 
 void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     std::uniform_int_distribution<> distr(0, 99);
+    std::mt19937 gen(42);
     std::unique_ptr<pqxx::work> tx = std::make_unique<pqxx::work>(conn);
     Timer t;
 
@@ -41,7 +42,7 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     auto millis = t.getms();
 
     double cpu_end = get_cpu_time_sec();
-    double wall_time_sec = t.getms() / 1000.0;
+    double wall_time_sec = millis / 1000.0;
     double cpu_percent = compute_cpu_percent(cpu_end - cpu_start, wall_time_sec);
 
     long mem_used = get_memory_kb();
@@ -56,7 +57,6 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
 int main() {
     srand(42);
     std::random_device rd;
-    std::mt19937 gen(42);
 
     pqxx::connection conn = getConnection("testdb");
 	pqxx::work tx{conn};

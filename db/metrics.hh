@@ -1,8 +1,19 @@
 #pragma once
+#include <sys/resource.h>
 #include <fstream>
 #include <string>
 #include <thread>
 #include <cstdio>
+
+inline double get_cpu_time_sec() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+
+    double user = usage.ru_utime.tv_sec + usage.ru_utime.tv_usec / 1e6;
+    double sys  = usage.ru_stime.tv_sec + usage.ru_stime.tv_usec / 1e6;
+
+    return user + sys;
+}
 
 inline long get_memory_kb() {
     std::ifstream file("/proc/self/status");
@@ -32,12 +43,8 @@ inline double get_ram_percent() {
     return (100.0 * get_memory_kb()) / get_total_memory_kb();
 }
 
-inline int get_num_cores() {
-    unsigned int n = std::thread::hardware_concurrency();
-    return n > 0 ? n : 1;
-}
-
 inline double compute_cpu_percent(double cpu_time_sec, double wall_time_sec) {
     if (wall_time_sec <= 0) return 0.0;
-    return (cpu_time_sec / (wall_time_sec * get_num_cores())) * 100.0;
+    int num_cores = std::thread::hardware_concurrency();
+    return (cpu_time_sec / (wall_time_sec * num_cores)) * 100.0;
 }
