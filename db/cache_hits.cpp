@@ -19,7 +19,7 @@ int main() {
         std::cout << "Current stats:\n";
         pqxx::nontransaction N1(conn);
         pqxx::result res1 = N1.exec(
-            "SELECT blks_hit, blks_read, "
+            "SELECT blks_hit, blks_read "
             "FROM pg_stat_database WHERE datname='testdb';"
         );
         int a = res1[0][0].as<int>();
