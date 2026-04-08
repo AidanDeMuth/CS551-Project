@@ -12,7 +12,7 @@ CONN="postgresql://postgres:password@localhost:5432/testdb?connect_timeout=5"
 DROP="DROP TABLE IF EXISTS test_table;"
 CREATE="
 	CREATE TABLE test_table(
-		id INT,
+		id SERIAL PRIMARY KEY,
 		balance INT
 	);
 "
