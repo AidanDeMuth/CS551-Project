@@ -60,22 +60,8 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
 int main() {
     srand(42);
     std::random_device rd;
-
     pqxx::connection conn = getConnection("testdb");
-	pqxx::work tx{conn};
-    pqxx::stream_to table_stream(tx, "test_table");
 
-    // Populate initial table
-    for (int i = 1; i < N/2; ++i) {
-        table_stream << std::make_tuple(i, 30000);
-    }
-    for (int i = N/2; i <= N; ++i) {
-        table_stream << std::make_tuple(i, 30000);
-    }
-    table_stream.complete();
-	tx.commit();
-
-    // Run mixed read/write workloads
     run_mixed_workload(conn, 20);
 	run_mixed_workload(conn, 50);
 	run_mixed_workload(conn, 80);
