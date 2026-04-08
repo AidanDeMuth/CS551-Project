@@ -12,7 +12,7 @@ CREATE="
 	);
 "
 
-psql "$CONN" -q -c "$DROP"
+psql "$CONN" -q -c "$DROP" > /dev/null 2>/dev/null
 psql "$CONN" -q -c "$CREATE"
 
 # Call some C function
