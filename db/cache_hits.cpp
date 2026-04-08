@@ -5,7 +5,7 @@
 #include <string>
 #include <random>
 
-const int N = 1'350'000;
+const int N = 4'300'000;
 const int NUM_QUERIES = 10'000;
 
 int main() {
@@ -34,7 +34,7 @@ int main() {
         for (int i = 0; i < NUM_QUERIES; ++i) {
 
             int id = dist(rng);
-            pqxx::result R = W3->exec("SELECT value FROM test_table WHERE id=" + std::to_string(id) + ";");
+            pqxx::result R = W3->exec("SELECT balance FROM test_table WHERE id=" + std::to_string(id) + ";");
             if (i % 10000 == 0) {
                 W3->commit();
                 W3 = std::make_unique<pqxx::work>(conn);
