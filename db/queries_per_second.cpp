@@ -17,6 +17,7 @@ int main() {
     for (int i = 1; i <= NUM_QUERIES; ++i) {
         table_stream << std::make_tuple(i, 30000);
     }
+    W1.commit();
 
     Timer t;
     std::unique_ptr<pqxx::work> W3 = std::make_unique<pqxx::work>(conn);
