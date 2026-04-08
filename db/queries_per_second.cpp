@@ -11,9 +11,9 @@ const int NUM_QUERIES = 10'000;
 int main() {
 
     pqxx::connection conn = getConnection("testdb");
-    pqxx::work W(conn);
+    pqxx::work W1(conn);
 
-    pqxx::stream_to table_stream(tx, "test_table");
+    pqxx::stream_to table_stream(W1, "test_table");
     for (int i = 1; i <= NUM_QUERIES; ++i) {
         table_stream << std::make_tuple(i, 30000);
     }
