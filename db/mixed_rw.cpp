@@ -63,12 +63,12 @@ int main() {
     pqxx::connection conn = getConnection("testdb");
 
     pqxx::work tx{conn};
-    pqxx::stream_to table_stream(tx, "test_table");
-   for (int i = 1; i <= N; ++i) {
-       table_stream << std::make_tuple(20000);
-   }
-   table_stream.complete();
-   tx.commit();
+    pqxx::stream_to<> table_stream(tx, "test_table", {"balance"});
+    for (int i = 1; i <= N; ++i) {
+        table_stream << std::make_tuple(20000);
+    }
+    table_stream.complete();
+    tx.commit();
 
     run_mixed_workload(conn, 20);
 	run_mixed_workload(conn, 50);
