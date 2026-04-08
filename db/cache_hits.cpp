@@ -20,7 +20,6 @@ int main() {
         pqxx::nontransaction N1(conn);
         pqxx::result res1 = N1.exec(
             "SELECT blks_hit, blks_read, "
-            "ROUND(blks_hit::numeric/(blks_hit+blks_read)*100,2) AS hit_ratio "
             "FROM pg_stat_database WHERE datname='testdb';"
         );
         int a = res1[0][0].as<int>();
