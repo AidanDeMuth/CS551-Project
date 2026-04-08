@@ -65,7 +65,7 @@ int main() {
     pqxx::work tx{conn};
     pqxx::stream_to table_stream(tx, "test_table");
    for (int i = 1; i <= N; ++i) {
-       table_stream << std::make_tuple(i, 30000);
+       table_stream << std::make_tuple(20000);
    }
    table_stream.complete();
    tx.commit();
