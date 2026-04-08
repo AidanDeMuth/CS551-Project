@@ -1,5 +1,6 @@
 #include "./timer.hh"
 #include "./test.hh"
+#include "metrics.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -11,11 +12,16 @@ const int WRITE_ID = 2;
 const int N = 1'000'000;
 
 void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
+    std::uniform_int_distribution<> distr(0, 99);
     std::unique_ptr<pqxx::work> tx = std::make_unique<pqxx::work>(conn);
     Timer t;
 
+    double cpu_start = get_cpu_time_sec();
+    long mem_total = get_total_memory_kb();
+
     for (int i = 1; i <= N; ++i) {
-        int r = rand() % 100;
+        int r = distr(gen);
+
         if (r < read_percentage) {
             tx->exec("SELECT * FROM test_table WHERE id = "+ std::to_string(READ_ID));
         } else {
@@ -32,12 +38,25 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     }
 
     tx->commit();
+    auto millis = t.getms();
+
+    double cpu_end = get_cpu_time_sec();
+    double wall_time_sec = t.getms() / 1000.0;
+    double cpu_percent = compute_cpu_percent(cpu_end - cpu_start, wall_time_sec);
+
+    long mem_used = get_memory_kb();
+    double ram_percent = (100.0 * mem_used) / mem_total;
+
     std::cout << "Read %: " << read_percentage
-              << " Time(ms): " << t.getms() << std::endl;
+              << " Time(ms): " << millis
+              << " CPU(%): " << cpu_percent
+              << " RAM(%): " << ram_percent << std::endl;
 }
 
 int main() {
-    srand(time(NULL));
+    srand(42);
+    std::random_device rd;
+    std::mt19937 gen(42);
 
     pqxx::connection conn = getConnection("testdb");
 	pqxx::work tx{conn};
