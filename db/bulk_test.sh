@@ -12,11 +12,10 @@ CREATE="
 	);
 "
 
-psql "$CONN" -c "$DROP"
-psql "$CONN" -c "$CREATE"
+psql "$CONN" -c "$DROP" > /dev/null
+psql "$CONN" -c "$CREATE" > /dev/null
 
 # Call some C function
-echo "Populating table from bulk_test..."
 ./bulk_test
 
-psql "$CONN" -c "$DROP"
+psql "$CONN" -c "$DROP" > /dev/null
