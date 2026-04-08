@@ -17,7 +17,7 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     for (int i = 1; i <= N; ++i) {
         int r = rand() % 100;
         if (r < read_percentage) {
-            tx.exec("SELECT * FROM test_table WHERE id = "+ std::to_string(READ_ID));
+            tx->exec("SELECT * FROM test_table WHERE id = "+ std::to_string(READ_ID));
         } else {
             if (rand() % 2 == 0) {
                 tx->exec("UPDATE test_table SET balance = balance + 1 WHERE id = "+ std::to_string(WRITE_ID));
