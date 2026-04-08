@@ -5,8 +5,8 @@
 #include <string>
 #include <random>
 
-const int N = 160'000;
-const int NUM_QUERIES = N;
+const int N = 1'350'000;
+const int NUM_QUERIES = 10'000;
 
 int main() {
     try {
