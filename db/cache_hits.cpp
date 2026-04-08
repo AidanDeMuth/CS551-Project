@@ -1,3 +1,5 @@
+#include "./test.hh"
+
 #include <pqxx/pqxx>
 #include <iostream>
 #include <string>
@@ -15,19 +17,19 @@ int main() {
 
         //TODO delete
         std::cout << "Current stats:\n";
-        pqxx::nontransaction N(conn);
-        pqxx::result res = N.exec(
+        pqxx::nontransaction N1(conn);
+        pqxx::result res1 = N1.exec(
             "SELECT blks_hit, blks_read, "
             "ROUND(blks_hit::numeric/(blks_hit+blks_read)*100,2) AS hit_ratio "
             "FROM pg_stat_database WHERE datname='testdb';"
         );
-        int blks_hit = res[0][0].as<int>();
-        int blks_read = res[0][1].as<int>();
-        std::string hit_ratio = res[0][2].c_str();
+        int a = res1[0][0].as<int>();
+        int b = res1[0][1].as<int>();
+        std::string c = res1[0][2].c_str();
 
-        std::cout << "Blocks Hit: " << blks_hit << "\n";
-        std::cout << "Blocks Read (disk): " << blks_read << "\n";
-        std::cout << "Hit Ratio: " << hit_ratio << "%\n";
+        std::cout << "Blocks Hit: " << a << "\n";
+        std::cout << "Blocks Read (disk): " << b << "\n";
+        std::cout << "Hit Ratio: " << c << "%\n";
         // TODO end delete
 
         {
@@ -75,8 +77,6 @@ int main() {
         std::cout << "Blocks Hit: " << blks_hit << "\n";
         std::cout << "Blocks Read (disk): " << blks_read << "\n";
         std::cout << "Hit Ratio: " << hit_ratio << "%\n";
-
-        conn.disconnect();
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
