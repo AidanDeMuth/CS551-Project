@@ -66,7 +66,7 @@ int main() {
     pqxx::stream_to table_stream = pqxx::stream_to::table(tx, {"test_table"}, {"balance"});
     int initial_balance = 20000;
     for (int i = 2; i <= N; ++i) {
-        table_stream << std::tie(20000);
+        table_stream << std::tie(initial_balance);
     }
     table_stream.complete();
     tx.commit();
