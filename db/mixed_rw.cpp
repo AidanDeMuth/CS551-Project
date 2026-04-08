@@ -64,7 +64,7 @@ int main() {
 
     pqxx::work tx{conn};
     pqxx::stream_to table_stream = pqxx::stream_to::table(tx, {"test_table"}, {"balance"});
-
+    int initial_balance = 20000;
     for (int i = 2; i <= N; ++i) {
         table_stream << std::tie(20000);
     }
