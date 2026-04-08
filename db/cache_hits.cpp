@@ -42,8 +42,7 @@ int main() {
             W3.commit();
         }
 
-        auto end_time = t.getms();
-        double duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+        double duration_ms = t.getms();
         std::cout << "Point query transactions per ms: " << NUM_QUERIES/duration_ms << ".\n";
 
         pqxx::nontransaction N(conn);
