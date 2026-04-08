@@ -23,7 +23,7 @@ int main() {
 
     Timer t;
     std::unique_ptr<pqxx::work> W3 = std::make_unique<pqxx::work>(conn);
-    for (int i = 0; i < NUM_QUERIES; ++i) {
+    for (int i = 1; i <= NUM_QUERIES; ++i) {
 
         pqxx::result R = W3->exec("SELECT balance FROM test_table WHERE id=" + std::to_string(i) + ";");
         if (i % 10000 == 0) {
