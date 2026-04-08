@@ -1,12 +1,11 @@
 #include "./test.hh"
-#include "./timer.hh"
 
 #include <pqxx/pqxx>
 #include <iostream>
 #include <string>
 #include <random>
 
-const int N = 10'000;
+const int N = 160'000;
 const int NUM_QUERIES = N;
 
 int main() {
@@ -33,17 +32,17 @@ int main() {
         std::mt19937 rng(42);
         std::uniform_int_distribution<int> dist(1, N);
 
-        Timer t;
-
+        std::unique_ptr<pqxx::work> W3 = std::make_unique<pqxx::work>(conn);
         for (int i = 0; i < NUM_QUERIES; ++i) {
-            pqxx::work W3(conn);
-            int id = dist(rng);
-            pqxx::result R = W3.exec("SELECT value FROM test_cache WHERE id=" + std::to_string(id) + ";");
-            W3.commit();
-        }
 
-        double duration_ms = t.getms();
-        std::cout << "Point query transactions per second: " << NUM_QUERIES*1000/duration_ms << ".\n";
+            int id = dist(rng);
+            pqxx::result R = W3->exec("SELECT value FROM test_cache WHERE id=" + std::to_string(id) + ";");
+            if (i % 10000 == 0) {
+                W3->commit();
+                W3 = std::make_unique<pqxx::work>(conn);
+            }
+        }
+        W3->commit();
 
         pqxx::nontransaction N(conn);
         pqxx::result res = N.exec(
