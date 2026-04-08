@@ -1,6 +1,6 @@
 #include "./timer.hh"
 #include "./test.hh"
-#include "metrics.h"
+#include "./metrics.hh"
 
 #include <cstdlib>
 #include <iostream>
