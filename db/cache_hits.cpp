@@ -6,7 +6,7 @@
 #include <string>
 #include <random>
 
-const int N = 100'000;
+const int N = 10'000;
 
 int main() {
     try {
@@ -31,7 +31,7 @@ int main() {
 
         std::mt19937 rng(42);
         std::uniform_int_distribution<int> dist(1, N);
-        const int NUM_QUERIES = 10'000;
+        const int NUM_QUERIES = 50'000;
 
         Timer t;
 
