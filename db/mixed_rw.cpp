@@ -7,7 +7,7 @@
 #include <random>
 #include <unistd.h>
 
-const int N = 1'000;
+const int N = 20'000;
 
 void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     std::uniform_int_distribution<> distr(0, 99);
@@ -61,6 +61,14 @@ int main() {
     srand(42);
     std::random_device rd;
     pqxx::connection conn = getConnection("testdb");
+
+    pqxx::work tx{conn};
+    pqxx::stream_to table_stream(tx, "test_table");
+   for (int i = 1; i <= N; ++i) {
+       table_stream << std::make_tuple(i, 30000);
+   }
+   table_stream.complete();
+   tx.commit();
 
     run_mixed_workload(conn, 20);
 	run_mixed_workload(conn, 50);
