@@ -9,7 +9,7 @@
 
 const int READ_ID = 1;
 const int WRITE_ID = 2;
-const int N = 1'000'000;
+const int N = 1'000;
 
 void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     std::uniform_int_distribution<> distr(0, 99);
