@@ -63,9 +63,10 @@ int main() {
     pqxx::connection conn = getConnection("testdb");
 
     pqxx::work tx{conn};
-    pqxx::stream_to table_stream(tx, "test_table");
+    pqxx::stream_to table_stream = pqxx::stream_to::table(tx, {"test_table"}, {"balance"});
+
     for (int i = 2; i <= N; ++i) {
-        table_stream << std::make_tuple(i, 20000);
+        table_stream << std::tie(20000);
     }
     table_stream.complete();
     tx.commit();
