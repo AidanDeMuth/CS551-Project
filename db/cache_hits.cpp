@@ -7,6 +7,7 @@
 #include <random>
 
 const int N = 10'000;
+const int NUM_QUERIES = N;
 
 int main() {
     try {
@@ -31,7 +32,6 @@ int main() {
 
         std::mt19937 rng(42);
         std::uniform_int_distribution<int> dist(1, N);
-        const int NUM_QUERIES = 50'000;
 
         Timer t;
 
@@ -43,7 +43,7 @@ int main() {
         }
 
         double duration_ms = t.getms();
-        std::cout << "Point query transactions per ms: " << NUM_QUERIES/duration_ms << ".\n";
+        std::cout << "Point query transactions per second: " << NUM_QUERIES*1000/duration_ms << ".\n";
 
         pqxx::nontransaction N(conn);
         pqxx::result res = N.exec(
