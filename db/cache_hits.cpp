@@ -25,11 +25,9 @@ int main() {
         );
         int a = res1[0][0].as<int>();
         int b = res1[0][1].as<int>();
-        std::string c = res1[0][2].c_str();
 
         std::cout << "Blocks Hit: " << a << "\n";
         std::cout << "Blocks Read (disk): " << b << "\n";
-        std::cout << "Hit Ratio: " << c << "%\n";
         // TODO end delete
 
         {
