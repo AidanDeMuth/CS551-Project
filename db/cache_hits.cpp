@@ -17,16 +17,14 @@ int main() {
         W.commit();
         std::cout << "Database stats reset.\n";
 
-        {
-            pqxx::work W2(conn);
-            W2.exec("DROP TABLE IF EXISTS test_cache;");
-            W2.exec("CREATE TABLE test_cache(id SERIAL PRIMARY KEY, value TEXT);");
-
-            for (int i = 0; i < N; ++i) {
-                W2.exec0("INSERT INTO test_cache(value) VALUES(" + W2.quote("Value_" + std::to_string(i)) + ");");
-            }
-            W2.commit();
+        pqxx::work tx{conn};
+        tx.exec("TRUNCATE TABLE test_table;");
+        pqxx::stream_to table_stream(tx, "test_table");
+        for (long long i = 1; i <= N; ++i) {
+            table_stream << std::make_tuple(i, 50000);
         }
+        table_stream.complete();
+        tx.commit();
         std::cout << "Table populated with " << N << " rows.\n";
 
         std::mt19937 rng(42);
