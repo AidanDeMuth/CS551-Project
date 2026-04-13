@@ -1,0 +1,17 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-o",
+      "multithread_test",
+      "multithread_test.cpp"
+    ],
+    "directory": "/home/ubuntu/CS551-Project/db",
+    "file": "/home/ubuntu/CS551-Project/db/multithread_test.cpp",
+    "output": "/home/ubuntu/CS551-Project/db/multithread_test"
+  }
+]
