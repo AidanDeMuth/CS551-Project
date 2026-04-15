@@ -7,7 +7,7 @@
 #include <random>
 #include <unistd.h>
 
-const int N = 20'000;
+const int N = 40'000;
 
 void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
     std::uniform_int_distribution<> distr(0, 99);
