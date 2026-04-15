@@ -25,6 +25,7 @@ void worker_task(int id) {
         active_connections--;
     } catch (const std::exception &e) {
         connection_errors++;
+        std::cerr << "Connection " << id << " failed: " << e.what() << "\n";
     }
 }
 
