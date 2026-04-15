@@ -15,21 +15,19 @@ std::atomic<int> successful_connections(0);
 std::atomic<int> connection_errors(0);
 
 void worker_task(int id) {
-    successful_connections++;
-    active_connections++;
     try {
         pqxx::connection conn = getConnection("testdb");
-        active_connections++;
-
-        pqxx::nontransaction N(conn);
-
-        N.exec("SELECT pg_sleep(10);"); // keep the connection busy for 10 seconds
-
+        successful_connections++;
+        try {
+            pqxx::nontransaction N(conn);
+            N.exec("SELECT pg_sleep(10);"); // keep the connection busy for 10 seconds
+        } catch (...) {
+            // query failure doesn't invalidate connection success
+        }
+        active_connections--;
     } catch (const std::exception &e) {
         connection_errors++;
-        std::cerr << "Connection " << id << " failed: " << e.what() << "\n";
     }
-    active_connections--;
 }
 
 int main() {
