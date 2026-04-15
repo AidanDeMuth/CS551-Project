@@ -1,3 +1,5 @@
+#include "./test.hh"
+
 #include <pqxx/pqxx>
 #include <iostream>
 #include <vector>
