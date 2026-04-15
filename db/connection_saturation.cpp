@@ -10,7 +10,6 @@
 const int TARGET_CONNECTIONS = 200;
 const int RAMP_UP_DELAY_MS = 10; // Delay between opening connections to avoid thundering herd
 
-std::atomic<int> active_connections(0);
 std::atomic<int> successful_connections(0);
 std::atomic<int> connection_errors(0);
 
@@ -24,7 +23,6 @@ void worker_task(int id) {
         } catch (...) {
             // query failure doesn't invalidate connection success
         }
-        active_connections--;
     } catch (const std::exception &e) {
         connection_errors++;
     }
@@ -40,7 +38,7 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(RAMP_UP_DELAY_MS));
 
         if (i % 25 == 0) {
-            std::cout << "Attempted: " << i << " | Active: " << active_connections << " | Errors: " << connection_errors << "\n";
+            std::cout << "Attempted: " << i << " | Errors: " << connection_errors << "\n";
         }
     }
 
