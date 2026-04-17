@@ -22,15 +22,15 @@ chmod +x base.sh db_install.sh DBcontrol.sh run_test.sh || true
 ./DBcontrol.sh create "${DB_NAME}" || true
 
 g++ -std=c++17 -Wall -Wextra bulk_insert.cpp -o bulk_insert -lpqxx -lpq
-g++ -std=c++17 -Wall -Wextra join_test.cpp -o join_test -lpqxx -lpq
+g++ -std=c++17 -Wall -Wextra cpu_test.cpp -o cpu_test -lpqxx -lpq
 g++ -std=c++17 -Wall -Wextra mixed_rw.cpp -o mixed_rw -lpqxx -lpq
 g++ -std=c++17 -Wall -Wextra queries_per_second.cpp -o queries_per_second -lpqxx -lpq
 g++ -std=c++17 -Wall -Wextra cache_hits.cpp -o cache_hits -lpqxx -lpq
 
-chmod +x bulk_insert join_test mixed_rw queries_per_second cache_hits
+chmod +x bulk_insert cpu_test mixed_rw queries_per_second cache_hits
 
 ./run_test.sh bulk_insert | tee "${RESULT_DIR}/result_bulk.txt"
-./join_test | tee "${RESULT_DIR}/result_join.txt"
+./cpu_test | tee "${RESULT_DIR}/result_join.txt"
 ./run_test.sh mixed_rw | tee "${RESULT_DIR}/result_mixed_rw.txt"
 ./run_test.sh queries_per_second | tee "${RESULT_DIR}/result_qps.txt"
 
