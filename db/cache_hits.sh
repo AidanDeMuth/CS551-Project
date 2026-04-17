@@ -1,13 +1,11 @@
 #!/bin/bash
 set -e
 
-CPP_SCRIPT_NAME=$1
-if [[ $# -lt 1 ]]; then
-  echo "usage: [bulk_insert | mixed_rw | queries_per_second]"; exit 1;
-fi
+CPP_SCRIPT_NAME="cache_hits"
 
-# I prob shouldn't be committing this but whatever
 CONN="postgresql://postgres:password@localhost:5432/testdb?connect_timeout=5"
+
+## QUERIES
 
 DROP="DROP TABLE IF EXISTS test_table;"
 CREATE="
@@ -17,10 +15,11 @@ CREATE="
 	);
 "
 
+## EXECUTION
+
 psql "$CONN" -q -c "$DROP" > /dev/null 2>/dev/null
 psql "$CONN" -q -c "$CREATE"
 
-# Call some C function
 ./$CPP_SCRIPT_NAME
 
 psql "$CONN" -q -c "$DROP"

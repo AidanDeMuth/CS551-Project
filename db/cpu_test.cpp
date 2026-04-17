@@ -19,9 +19,6 @@ int getBackendPID(pqxx::connection& conn) {
 	return pid;
 }
 
-// CPU Test Ideas
-// 100,000,000 row join- SET max_parallel_workers_per_gather = 0;
-
 /* testJoin()
  *
  * Perform a CPU speed test with large table join.

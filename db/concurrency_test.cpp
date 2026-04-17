@@ -23,7 +23,7 @@ void insertRows(int thread_id, int num_rows, pqxx::connection &conn) {
   tx.commit();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " inserted " << num_rows << " rows\n";
+  // std::cout << "Thread " << thread_id << " inserted " << num_rows << " rows\n";
 }
 
 void avgQuery(int thread_id, pqxx::connection &conn) {
@@ -35,8 +35,8 @@ void avgQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " query over " << res.size()
-            << " rows took " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " query over " << res.size()
+  //           << " rows took " << elapsed << " ms\n";
 }
 void updateHotRows(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -52,8 +52,8 @@ void updateHotRows(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " updated hot rows in " << elapsed
-            << " ms\n";
+  // std::cout << "Thread " << thread_id << " updated hot rows in " << elapsed
+  //          << " ms\n";
 }
 void deleteOldRows(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -66,8 +66,8 @@ void deleteOldRows(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " deleted " << res.size()
-            << " rows in " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " deleted " << res.size()
+  //           << " rows in " << elapsed << " ms\n";
 }
 void pointLookupQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -80,8 +80,8 @@ void pointLookupQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " point lookup took " << elapsed
-            << " ms\n";
+  // std::cout << "Thread " << thread_id << " point lookup took " << elapsed
+  //           << " ms\n";
 }
 void rangeScanQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -94,8 +94,8 @@ void rangeScanQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " range scan returned " << res.size()
-            << " rows in " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " range scan returned " << res.size()
+  //           << " rows in " << elapsed << " ms\n";
 }
 void countDistinctQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -107,8 +107,8 @@ void countDistinctQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
   std::lock_guard<std::mutex> lock(print_mutex);
 
-  std::cout << "Thread " << thread_id << " distinct count took " << elapsed
-            << " ms\n";
+  // std::cout << "Thread " << thread_id << " distinct count took " << elapsed
+  //           << " ms\n";
 }
 void windowFunctionQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -124,8 +124,8 @@ void windowFunctionQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
   std::lock_guard<std::mutex> lock(print_mutex);
 
-  std::cout << "Thread " << thread_id << " window query took " << elapsed
-            << " ms\n";
+  // std::cout << "Thread " << thread_id << " window query took " << elapsed
+  //           << " ms\n";
 }
 void createIndexQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -137,8 +137,8 @@ void createIndexQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
   std::lock_guard<std::mutex> lock(print_mutex);
 
-  std::cout << "Thread " << thread_id << " created index in " << elapsed
-            << " ms\n";
+  // std::cout << "Thread " << thread_id << " created index in " << elapsed
+  //           << " ms\n";
 }
 
 void bulkInsertCopy(int thread_id, pqxx::connection &conn) {
@@ -160,8 +160,8 @@ void bulkInsertCopy(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " bulk inserted 5000 rows in "
-            << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " bulk inserted 5000 rows in "
+  //           << elapsed << " ms\n";
 }
 
 void groupQuery(int thread_id, pqxx::connection &conn) {
@@ -173,8 +173,8 @@ void groupQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " query over " << res.size()
-            << " rows took " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " query over " << res.size()
+  //           << " rows took " << elapsed << " ms\n";
 }
 void filterQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -185,8 +185,8 @@ void filterQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " query over " << res.size()
-            << " rows took " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " query over " << res.size()
+  //           << " rows took " << elapsed << " ms\n";
 }
 void randomQuery(int thread_id, pqxx::connection &conn) {
   pqxx::work tx{conn};
@@ -199,8 +199,8 @@ void randomQuery(int thread_id, pqxx::connection &conn) {
   double elapsed = t.getms();
 
   std::lock_guard<std::mutex> lock(print_mutex);
-  std::cout << "Thread " << thread_id << " query over " << res.size()
-            << " rows took " << elapsed << " ms\n";
+  // std::cout << "Thread " << thread_id << " query over " << res.size()
+  //           << " rows took " << elapsed << " ms\n";
 }
 
 void worker(int thread_id, int num_rows) {
@@ -249,7 +249,9 @@ int main(int argc, char *argv[]) {
   srand(time(0));
 
   // Make sure table exists
-  pqxx::connection setup_conn = getConnection("mydb");
+  /*
+	pqxx::connection setup_conn = getConnection("mydb");
+
   pqxx::work setup_tx{setup_conn};
   setup_tx.exec(R"(
         CREATE TABLE IF NOT EXISTS weather (
@@ -264,7 +266,7 @@ int main(int argc, char *argv[]) {
 
   std::cout << "Spawning " << num_threads << " threads, " << rows_each
             << " rows each (" << num_threads * rows_each << " total)\n";
-
+*/
   Timer t;
 
   std::vector<std::thread> threads;
