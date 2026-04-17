@@ -8,8 +8,6 @@
 int main() {
     const int N = 10'000'000;
 
-	Timer t;
-
 	pqxx::connection conn = getConnection("testdb");
 	pqxx::work tx{conn};
 
@@ -17,7 +15,7 @@ int main() {
 
     pqxx::stream_to table_stream(tx, "test_table");
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
+    Timer t;
     for (long long i = 1; i <= N; ++i) {
         int id = i;
         int balance = std::rand() % 100000; // random balance

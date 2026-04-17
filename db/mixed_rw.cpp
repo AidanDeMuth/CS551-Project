@@ -16,11 +16,11 @@ void run_mixed_workload(pqxx::connection& conn, int read_percentage) {
 
     std::mt19937 gen(42);
     std::unique_ptr<pqxx::work> tx = std::make_unique<pqxx::work>(conn);
-    Timer t;
 
     double cpu_start = get_cpu_time_sec();
     long mem_total = get_total_memory_kb();
 
+    Timer t;
     for (int i = 1; i <= N; ++i) {
         int r = distr(gen);
 

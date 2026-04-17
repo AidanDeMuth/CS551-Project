@@ -21,8 +21,8 @@ int main() {
     }
     W1.commit();
 
-    Timer t;
     std::unique_ptr<pqxx::work> W3 = std::make_unique<pqxx::work>(conn);
+    Timer t;
     for (int i = 1; i <= NUM_QUERIES; ++i) {
 
         pqxx::result R = W3->exec("SELECT balance FROM test_table WHERE id=" + std::to_string(i) + ";");
