@@ -20,3 +20,14 @@ then in `~/install` execute the installation scripts:
       
 - `~/db/DBcontrol.sh [create | drop | list] <db-name>`
     - create/drop a database with a given name, or list databases maintained by the cluster
+
+## Network Latency
+1. Run the following commands
+```bash
+sudo apt install iputils-ping
+```
+```bash
+ping -i 0.2 -c 300 -D purdue.edu | tee ping.log
+```
+
+2. Read the avg latency printed in the end.
