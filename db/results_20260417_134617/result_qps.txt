@@ -1,1 +1,0 @@
-Point query transactions per second: 588.194.

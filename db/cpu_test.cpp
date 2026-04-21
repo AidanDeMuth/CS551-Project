@@ -7,18 +7,6 @@
 #include <stdio.h>
 #include <iostream>
 
-/* get getBackendPID()
- *
- * We need to query the postgres server to get its backend PID,
- * so this is just a helper to do it given some connection
- */
-int getBackendPID(pqxx::connection& conn) {
-	pqxx::nontransaction ntx{conn};
-	pqxx::result res = ntx.exec("SELECT pg_backend_pid();");
-	int pid = res[0][0].as<int>();
-	return pid;
-}
-
 /* testJoin()
  *
  * Perform a CPU speed test with large table join.
@@ -31,9 +19,6 @@ int getBackendPID(pqxx::connection& conn) {
 double testJoin() {
 	pqxx::connection conn = getConnection("testdb");
 
-	/* Get the backend PID for perf */
-	int backendPID = getBackendPID(conn);
-	std::cout << backendPID << std::endl;
 	
 	pqxx::work tx{conn};
 
@@ -59,34 +44,14 @@ double testJoin() {
 		EXECUTE join_test;
 	)";	
 
-	/* Load the plan + do a warmip */
-	tx.exec(prepare);
-	
-	int pid = fork();
-	if (pid < 0) { return -1; }
-	if (pid == 0) {
-        std::string pidstr = std::to_string(backendPID);
-        const char* args[] = {
-            "sudo", "perf", "record",
-            "-o", "perf_stat.txt",
-            "-p", pidstr.c_str(),
-            NULL
-        }; // useless on t2 micro
-        execvp("sudo", (char* const*)args);
-        exit(1);
-	}
+	/* Load the plan */
+	tx.exec(prepare);	
 
-	usleep(500000); // wait for perf to attach
-
-	std::cout << "Perf attached, running query..." << std::endl;
     Timer t;
     pqxx::result row = tx.exec(execute);
 
     double elapsed = t.getms();
 
-    kill(pid, SIGINT);
-    waitpid(pid, NULL, 0);
-    usleep(500000); // let perf flush perf.dataconn.close(); 
 	return elapsed;
 }
 

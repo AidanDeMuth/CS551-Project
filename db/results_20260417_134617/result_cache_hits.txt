@@ -1,6 +1,0 @@
-Database stats reset.
-Table populated with 4300000 rows.
-Cache stats after workload:
-Blocks Hit: 4568599
-Blocks Read (disk): 7897
-Hit Ratio: 99.83%
