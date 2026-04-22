@@ -7,7 +7,7 @@
 #include <atomic>
 #include <chrono>
 
-const int TARGET_CONNECTIONS = 200;
+const int TARGET_CONNECTIONS = 2000;
 const int RAMP_UP_DELAY_MS = 10; // Delay between opening connections to avoid thundering herd
 
 std::atomic<int> successful_connections(0);
