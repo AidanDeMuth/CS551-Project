@@ -205,7 +205,7 @@ void randomQuery(int thread_id, pqxx::connection &conn) {
 
 void worker(int thread_id, int num_rows) {
   try {
-    pqxx::connection conn = getConnection("mydb");
+    pqxx::connection conn = getConnection("testdb");
     insertRows(thread_id, num_rows, conn);
 
     switch (thread_id) {
@@ -250,7 +250,7 @@ int main(int argc, char *argv[]) {
 
   // Make sure table exists
   /*
-	pqxx::connection setup_conn = getConnection("mydb");
+	pqxx::connection setup_conn = getConnection("testdb");
 
   pqxx::work setup_tx{setup_conn};
   setup_tx.exec(R"(
