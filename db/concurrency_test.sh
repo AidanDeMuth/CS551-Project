@@ -2,7 +2,7 @@
 
 
 CPP_SCRIPT_NAME="concurrency_test"
-CONN="postgresql://postgres:password@localhost:5432/testdb"
+CONN="postgresql://postgres:password@localhost:5432/mydb"
 
 
 
